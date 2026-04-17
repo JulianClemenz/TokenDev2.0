@@ -6,13 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//"/admin", middleware.CheckAdmin()  poner estas rutas en el main
-
 func CheckAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		result, ok := c.Get("role")
-		if !ok || result.(string) != "admin" {
-			c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Acceso denegado: se requiere rol de administrador"})
+		//Leemos el rol que seteó el AuthMiddleware
+		role, exists := c.Get("role")
+
+		if !exists || role != "admin" {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Acceso denegado: se requieren permisos de administrador"})
+			c.Abort()
 			return
 		}
 

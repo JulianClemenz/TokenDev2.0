@@ -9,7 +9,8 @@ import (
 )
 
 type MongoDB struct {
-	Client *mongo.Client
+	Client   *mongo.Client
+	Database *mongo.Database
 }
 
 func NewMongoDB() *MongoDB {

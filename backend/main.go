@@ -16,7 +16,7 @@ import (
 
 func main() {
 	// ✅ CORRECCIÓN: Cargamos el archivo .env al inicio
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("/.env"); err != nil {
 		log.Println("Aviso: No se encontró archivo .env, usando variables de sistema")
 	}
 

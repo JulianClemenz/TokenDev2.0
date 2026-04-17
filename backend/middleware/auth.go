@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,24 +18,23 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		tokenParts := strings.Split(authHeader, " ")
-		if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Formato de token invalido"})
+		// Extraer el token (formato: "Bearer <token>")
+		tokenString := strings.TrimSpace(strings.Replace(authHeader, "Bearer", "", 1))
+
+		token, err := utils.ValidateJWT(tokenString)
+		if err != nil || !token.Valid {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token inválido o expirado"})
 			c.Abort()
 			return
 		}
 
-		tokenString := tokenParts[1]
-		claims, err := utils.ValidateJWT(tokenString)
-		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "token invalido"})
-			c.Abort()
-			return
+		// Extraemos los datos que guardamos en GenerateJWT
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if ok && token.Valid {
+			c.Set("user_id", claims["user_id"])
+			c.Set("role", claims["role"])
 		}
 
-		c.Set("user_id", claims.UserID)
-		c.Set("email", claims.Email)
-		c.Set("role", claims.Role)
 		c.Next()
 	}
 }
