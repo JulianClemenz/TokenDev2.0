@@ -44,7 +44,7 @@ func (s *AuthService) Login(loginDTO *dto.LoginRequestDTO) (*dto.LoginResponseDT
 		return nil, fmt.Errorf("credenciales inválidas: contraseña incorrecta")
 	}
 
-	accessToken, err := utils.GenerateToken(user.ID, user.Email, string(user.Role))
+	accessToken, err := utils.GenerateJWT(user.ID.Hex(), string(user.Role))
 	if err != nil {
 		return nil, fmt.Errorf("error al generar el access token: %w", err)
 	}
@@ -126,7 +126,7 @@ func (s *AuthService) Refresh(refreshDTO *dto.RefreshRequestDTO) (*dto.RefreshRe
 	}
 
 	// Usamos tu 'utils/jwt.go' para crear un nuevo token de corta duración
-	newAccessToken, err := utils.GenerateToken(user.ID, user.Email, string(user.Role))
+	newAccessToken, err := utils.GenerateJWT(user.ID.Hex(), string(user.Role))
 	if err != nil {
 		return nil, fmt.Errorf("error al generar el nuevo access token: %w", err)
 	}

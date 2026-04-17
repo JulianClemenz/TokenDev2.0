@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"os" // ✅ CORRECCIÓN: Para leer MONGO_URI
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -14,7 +15,6 @@ type MongoDB struct {
 func NewMongoDB() *MongoDB {
 	instancia := &MongoDB{}
 	instancia.Connect()
-
 	return instancia
 }
 
@@ -22,10 +22,13 @@ func (mongoDB *MongoDB) GetClient() *mongo.Client {
 	return mongoDB.Client
 }
 
-// La dejamos privada, se ejecuta cuando se crea el objeto
 func (mongoDB *MongoDB) Connect() error {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	uri := os.Getenv("MONGO_URI")
+	if uri == "" {
+		uri = "mongodb://localhost:27017" // Fallback por seguridad
+	}
 
+	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.Connect(context.Background(), clientOptions)
 
 	if err != nil {
@@ -38,7 +41,6 @@ func (mongoDB *MongoDB) Connect() error {
 	}
 
 	mongoDB.Client = client
-
 	return nil
 }
 
