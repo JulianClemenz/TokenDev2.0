@@ -1,53 +1,39 @@
 package utils
 
 import (
-	"errors"
+	"os"
 	"time"
 
-	jwtv5 "github.com/golang-jwt/jwt/v5"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/dgrijalva/jwt-go"
 )
 
-var jwtSecret = []byte("firma_secretisima_del_token")
-
-type Claims struct {
-	UserID string `json:"user_id"`
-	Email  string `json:"email"`
-	Role   string `json:"role"`
-	jwtv5.RegisteredClaims
-}
-
-func GenerateToken(userID primitive.ObjectID, email string, role string) (string, error) {
-	claims := Claims{
-		UserID: userID.Hex(),
-		Email:  email,
-		Role:   role,
-		RegisteredClaims: jwtv5.RegisteredClaims{
-			ExpiresAt: jwtv5.NewNumericDate(time.Now().Add(24 * time.Hour)),
-			IssuedAt:  jwtv5.NewNumericDate(time.Now()),
-		},
+func getSecretKey() []byte {
+	secret := os.Getenv("JWT_SECRET")
+	if secret == "" {
+		// No dejar vacío en producción
+		return []byte("clave_temporal_por_favor_configurar_env")
 	}
-	token := jwtv5.NewWithClaims(jwtv5.SigningMethodHS256, claims)
-	return token.SignedString(jwtSecret)
+	return []byte(secret)
 }
 
-// También deberás actualizar tu función ValidateToken
-func ValidateToken(tokenString string) (*Claims, error) {
-	// Usar el alias `jwtv5` en todas partes
-	token, err := jwtv5.ParseWithClaims(tokenString, &Claims{}, func(token *jwtv5.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwtv5.SigningMethodHMAC); !ok {
-			return nil, errors.New("")
-		}
-		return jwtSecret, nil
-	})
+func GenerateJWT(userID string, role string) (string, error) {
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
 
+	claims["user_id"] = userID
+	claims["role"] = role
+	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+
+	tokenString, err := token.SignedString(getSecretKey())
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
-		return claims, nil
-	}
+	return tokenString, nil
+}
 
-	return nil, errors.New("invalid token")
+func ValidateJWT(tokenString string) (*jwt.Token, error) {
+	return jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return getSecretKey(), nil
+	})
 }
