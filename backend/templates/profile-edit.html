@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AppFitness - Editar perfil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard-user">Golds Gym</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard-user">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="profile.html"><strong>Mi cuenta</strong></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-5" style="max-width: 700px;">
+    <h1 class="mb-4 text-center">Editar datos personales</h1>
+
+    <form onsubmit="return false;">
+      <div class="input-group mb-3">
+        <span class="input-group-text">Nombre de usuario</span>
+        <input type="text" class="form-control" placeholder="username" aria-label="username" id="edit_username">
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">Nombre</span>
+        <input type="text" class="form-control" placeholder="nombre" aria-label="nombre" id="edit_name" disabled>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">Apellido</span>
+        <input type="text" class="form-control" placeholder="apellido" aria-label="apellido" id="edit_lastname"
+          disabled>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">Correo electrónico</span>
+        <input type="email" class="form-control" placeholder="email@example.com" aria-label="email" id="edit_email"
+          disabled>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">Altura (cm)</span>
+        <input type="number" class="form-control" placeholder="Ej: 175" aria-label="altura" id="edit_height">
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text">Peso (kg)</span>
+        <input type="number" class="form-control" placeholder="Ej: 70" aria-label="peso" id="edit_weight" step="0.1">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Experiencia</label>
+        <select class="form-select" id="edit_experience">
+          <option value="beginner">Principiante</option>
+          <option value="intermediate">Intermedio</option>
+          <option value="advanced">Avanzado</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Objetivo</label>
+        <select class="form-select" id="edit_objective">
+          <option value="lose_weight">Perder peso</option>
+          <option value="gain_weight">Ganar masa</option>
+          <option value="maintain">Mantener</option>
+        </select>
+      </div>
+
+      <div class="d-flex justify-content-center gap-3">
+        <button type="button" class="btn btn-outline-success" id="btn_save_changes">Guardar cambios</button>
+        <a href="profile.html" class="btn btn-outline-secondary">Cancelar</a>
+      </div>
+
+      <p id="error_msg" class="text-danger mt-3 text-center"></p>
+
+    </form>
+  </div>
+
+  <script>
+    function logout() {
+      // Función de logout (corregida)
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('refresh_token');
+      sessionStorage.removeItem('user');
+      window.location.href = '/';
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <script src="/statics/js/profile-edit.js"></script>
+</body>
+
+</html>

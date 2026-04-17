@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AppFitness - Registro</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script defer src="/statics/js/login.js"></script>
+</head>
+
+<body>
+  <!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">Golds Gym</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto"></ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4" style="max-width: 720px;">
+    <h1>Gold Gym</h1>
+    <h2>Registrar Usuario</h2>
+
+    <div class="row g-3 mt-2">
+      <div class="col-md-6">
+        <label class="form-label">Nombre</label>
+        <input id="reg_name" type="text" class="form-control" placeholder="Juan" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Apellido</label>
+        <input id="reg_surname" type="text" class="form-control" placeholder="Pérez" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nombre de usuario</label>
+        <input id="reg_username" type="text" class="form-control" placeholder="juanp" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Mail</label>
+        <input id="reg_email" type="email" class="form-control" placeholder="user@user.com" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Contraseña</label>
+        <input id="reg_password" type="password" class="form-control" placeholder="••••••••" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Fecha de Nacimiento</label>
+        <input id="reg_birth" type="date" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button id="btn_register" class="btn btn-outline-primary">Guardar</button>
+      <button type="button" class="btn btn-outline-danger"
+        onclick="['reg_name','reg_surname','reg_username','reg_email','reg_password','reg_birth'].forEach(id=>document.getElementById(id).value='');">
+        Borrar
+      </button>
+    </div>
+
+    <p id="register_msg" class="text-danger mt-2"></p>
+  </div>
+
+  <script>
+    document.getElementById('btn_register').addEventListener('click', () => {
+      const body = {
+        name: document.getElementById('reg_name').value.trim(),
+        surname: document.getElementById('reg_surname').value.trim(),
+        username: document.getElementById('reg_username').value.trim(),
+        email: document.getElementById('reg_email').value.trim(),
+        password: document.getElementById('reg_password').value,
+        birthdate: document.getElementById('reg_birth').value
+      };
+
+      if (!body.name || !body.surname || !body.username || !body.email || !body.password || !body.birthdate) {
+        document.getElementById('register_msg').textContent = 'Por favor, completa todos los campos.';
+        return;
+      }
+
+      body.birthdate = body.birthdate + "T00:00:00Z";
+
+      sessionStorage.setItem('reg_part1', JSON.stringify(body));
+      window.location.href = "/register2";
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

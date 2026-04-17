@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AppFitness - Mi cuenta</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard-user">Golds Gym</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard-user">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#"><strong>Mi cuenta</strong></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-4">
+    <h1 class="mb-4">Gestión de cuenta</h1>
+
+    <p id="error_msg" class="text-danger"></p>
+
+    <div class="card mb-3">
+      <div class="card-header fw-bold bg-primary text-white">
+        Información personal
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Nombre de usuario: <strong id="profile_username">Cargando...</strong></li>
+        <li class="list-group-item">Nombre: <strong id="profile_name">Cargando...</strong></li>
+        <li class="list-group-item">Apellido: <strong id="profile_lastname">Cargando...</strong></li>
+        <li class="list-group-item">Correo electrónico: <strong id="profile_email">Cargando...</strong></li>
+        <li class="list-group-item">Fecha de nacimiento: <strong id="profile_birthdate">Cargando...</strong></li>
+      </ul>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header fw-bold bg-secondary text-white">
+        Información física
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Altura: <strong id="profile_height">Cargando...</strong></li>
+        <li class="list-group-item">Peso: <strong id="profile_weight">Cargando...</strong></li>
+        <li class="list-group-item">Experiencia: <strong id="profile_experience">Cargando...</strong></li>
+        <li class="list-group-item">Objetivo: <strong id="profile_objective">Cargando...</strong></li>
+      </ul>
+    </div>
+
+    <div class="d-flex flex-column flex-sm-row gap-3">
+      <a href="profile-edit.html" class="btn btn-outline-success w-100">
+        Editar perfil
+      </a>
+
+      <a href="profile-edit-password.html" class="btn btn-outline-warning w-100">
+        Cambiar contraseña
+      </a>
+
+      <button type="button" class="btn btn-outline-danger w-100" onclick="logout()">
+        Cerrar sesión
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function logout() {
+      // CORREGIDO: Usar sessionStorage para coincidir con login.js
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('refresh_token');
+      sessionStorage.removeItem('user');
+      // CORREGIDO: Redirigir a la raíz
+      window.location.href = '/';
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <script src="/statics/js/profile.js"></script>
+</body>
+
+</html>

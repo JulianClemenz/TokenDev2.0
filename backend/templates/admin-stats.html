@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AppFitness - Estadísticas globales</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- AÑADIDO: Librería de Gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- NavBar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/admin-dashboard">Golds Gym</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin-dashboard">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin-exercises">Ejercicios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin-users">Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin-stats"><strong>Estadísticas
+                globales</strong></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin-system-logs">Logs del Sistema</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Usuario
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/profile">Ver perfil</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#" onclick="logout()">Cerrar sesión</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" />
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <!-- /NavBar -->
+
+  <div class="container my-4">
+    <h1>Estadísticas generales</h1>
+
+    <div class="row g-3 mt-2">
+      <div class="col-sm-6 col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title" id="user_count_number">...</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Usuarios Registrados</h6>
+            <a href="/admin-users" class="card-link">Ver usuarios</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-md-8">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Ranking ejercicios más usados (Top 3)</h5>
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Cant</th>
+                  </tr>
+                </thead>
+                <tbody id="top_exercises_table_body">
+                </tbody>
+              </table>
+            </div>
+            <a href="/admin-exercise-ranking" class="card-link">Ver ranking completo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta actualizada para el gráfico -->
+      <div class="col-sm-6 col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Distribución de Edades</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Usuarios registrados</h6>
+            <!-- Canvas para el gráfico -->
+            <canvas id="ageChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+
+  <script>
+    function logout() {
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('refresh_token');
+      sessionStorage.removeItem('user');
+      window.location.href = '/';
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <script src="/statics/js/admin-stats.js"></script>
+</body>
+
+</html>
