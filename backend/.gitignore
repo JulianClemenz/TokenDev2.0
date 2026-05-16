@@ -1,0 +1,12 @@
+# Variables de entorno — NUNCA subir al repo
+.env
+.env.local
+.env.production
+
+# Binario compilado
+AppFitness.exe
+AppFitness
+
+# IDE
+.vscode/
+.idea/
